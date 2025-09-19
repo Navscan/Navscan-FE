@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NavScan - Asset Tracking System v1.5.0</title>
+    <title>NavScan - Asset Tracking System v2.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
         }
-        
+
         :root {
             --spacing-unit: 0.5rem;
             --font-base: 1rem;
@@ -23,7 +26,7 @@
             --white: #FFFFFF;
             --light-gray: rgba(255, 255, 255, 0.1);
         }
-        
+
         body {
             background: linear-gradient(135deg, var(--navy) 0%, var(--dark-navy) 100%);
             color: var(--white);
@@ -33,22 +36,19 @@
             overflow: hidden;
             padding: 0;
             font-size: var(--font-base);
-            transition: transform 0.3s ease;
         }
-        
-        body.menu-open {
-            transform: translateX(var(--menu-width));
-            overflow: hidden;
-        }
-        
+
         .container {
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
+            padding: var(--container-padding);
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
             position: relative;
         }
-        
+
         header {
             display: flex;
             justify-content: space-between;
@@ -56,20 +56,20 @@
             padding: calc(var(--spacing-unit) * 2) 0;
             margin-bottom: var(--spacing-unit);
         }
-        
+
         .logo-container h1 {
             font-size: calc(var(--font-base) * 1.5);
             font-weight: 700;
             color: var(--gold);
             margin-bottom: calc(var(--spacing-unit) * 0.5);
         }
-        
+
         .logo-container p {
             font-size: calc(var(--font-base) * 0.85);
             color: var(--white);
             opacity: 0.9;
         }
-        
+
         .menu-btn {
             background: none;
             border: none;
@@ -80,12 +80,12 @@
             width: 2.75rem;
             height: 2.75rem;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             border-radius: 6px;
             z-index: 1001;
         }
-        
+
         .scan-section {
             flex: 1;
             display: flex;
@@ -95,23 +95,23 @@
             text-align: center;
             padding: calc(var(--spacing-unit) * 3) 0;
         }
-        
+
         .scan-title {
             font-size: calc(var(--font-base) * 1.25);
             margin-bottom: calc(var(--spacing-unit) * 3);
             font-weight: 600;
             color: var(--white);
         }
-        
+
         .scan-instructions {
             font-size: calc(var(--font-base) * 0.95);
-            margin-bottom: calc(var(--spacing-unit) * 3);
+            margin-bottom: calc(var(--spacing-unit) * 4);
             color: var(--white);
             opacity: 0.85;
             max-width: 70vw;
             line-height: 1.5;
         }
-        
+
         .scan-button {
             width: 5.5rem;
             height: 5.5rem;
@@ -126,82 +126,86 @@
             cursor: pointer;
             transition: transform 0.2s ease;
         }
-        
+
         .scan-button:active {
             transform: scale(0.95);
         }
-        
+
         .scan-button i {
             font-size: 2rem;
             color: var(--navy);
         }
-        
+
         .tap-text {
             font-size: calc(var(--font-base) * 1.1);
             font-weight: 600;
             color: var(--gold);
             margin-top: var(--spacing-unit);
         }
-        
+
         footer {
             margin-top: auto;
             padding: calc(var(--spacing-unit) * 3) 0 calc(var(--spacing-unit) * 2);
             text-align: center;
             border-top: 1px solid var(--light-gray);
         }
-        
+
         .footer-content {
             font-size: calc(var(--font-base) * 0.8);
             color: var(--white);
             opacity: 0.8;
-            line-height: 1.5;
+            line-height: 1.4;
         }
-        
+
         .footer-content p {
-            margin-bottom: calc(var(--spacing-unit) * 0.5);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
         }
-        
+
         .copyright {
             margin-top: calc(var(--spacing-unit) * 1.5);
             font-size: calc(var(--font-base) * 0.7);
             opacity: 0.7;
+            line-height: 1.4;
         }
-        
+
+        /* HAMBURGER MENU STYLES - CORRECTED */
         .hamburger-menu {
             position: fixed;
             top: 0;
-            left: calc(-1 * var(--menu-width));
+            left: 0;
             width: var(--menu-width);
             height: 100vh;
             background: linear-gradient(135deg, var(--dark-navy) 0%, #0A1429 100%);
             box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
             overflow-y: auto;
             z-index: 1000;
-            transition: left 0.3s ease;
+            transition: transform 0.3s ease;
             padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2);
+            transform: translateX(-100%);
         }
-        
+
         .hamburger-menu.open {
-            left: 0;
+            transform: translateX(0);
         }
-        
+
         .menu-header {
             text-align: center;
-            margin-bottom: calc(var(--spacing-unit) * 3);
+            margin-bottom: calc(var(--spating-unit) * 3);
             padding-bottom: calc(var(--spacing-unit) * 2);
             border-bottom: 1px solid var(--light-gray);
         }
-        
+
         .menu-header h2 {
             color: var(--gold);
             font-size: calc(var(--font-base) * 1.3);
             margin-bottom: calc(var(--spacing-unit) * 0.5);
         }
-        
+
         .menu-section {
             margin-bottom: calc(var(--spacing-unit) * 3);
         }
-        
+
         .section-header {
             color: var(--gold);
             font-size: calc(var(--font-base) * 1.1);
@@ -209,7 +213,7 @@
             padding-left: var(--spacing-unit);
             border-left: 3px solid var(--gold);
         }
-        
+
         .menu-item {
             display: flex;
             align-items: center;
@@ -220,18 +224,23 @@
             text-decoration: none;
             transition: background-color 0.2s ease;
         }
-        
+
         .menu-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .menu-item i {
             margin-right: calc(var(--spacing-unit) * 1.5);
             width: 1.5rem;
             text-align: center;
             color: var(--gold);
         }
-        
+
+        .menu-item span {
+            flex: 1;
+            font-size: calc(var(--font-base) * 0.95);
+        }
+
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -244,139 +253,547 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-        
+
         .menu-overlay.visible {
+}
+
+/* Settings Menu Styles - Matches Hamburger Menu */
+.settings-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--dark-navy) 0%, #0A1429 100%);
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 2000;
+    min-width: 300px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.settings-option {
+    display: flex;
+    align-items: center;
+    padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    border-radius: 6px;
+    color: var(--white);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.settings-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.settings-option i {
+    margin-right: calc(var(--spacing-unit) * 1.5);
+    width: 1.5rem;
+    text-align: center;
+    color: var(--gold);
+}
+
+.settings-option span:first-of-type {
+    flex: 1;
+    font-size: calc(var(--font-base) * 0.95);
+}
+
+.option-arrow {
+    color: var(--gold);
+    font-size: calc(var(--font-base) * 0.85);
+    margin-left: 10px;
+}
+
+.settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.settings-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+}
+
+/* Settings Modal Styles */
+#settingsModal .modal-content {
+    text-align: center;
+}
+
+#settingsModal h3 {
+    color: var(--gold);
+    margin-bottom: 15px;
+    font-size: calc(var(--font-base) * 1.2);
+}
+
+#settingsModal p {
+    margin-bottom: 20px;
+    color: var(--white);
+    opacity: 0.8;
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-option-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, #BF9B30 100%);
+    color: var(--navy);
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s ease;
+}
+
+.settings-option-btn:hover {
+    transform: translateY(-2px);
+}
+}
+
+/* Settings Modal Styles */
+#settingsModal .modal-content {
+    text-align: center;
+}
+
+#settingsModal h3 {
+    color: var(--gold);
+    margin-bottom: 15px;
+    font-size: calc(var(--font-base) * 1.2);
+}
+
+#settingsModal p {
+    margin-bottom: 20px;
+    color: var(--white);
+    opacity: 0.8;
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-option-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, #BF9B30 100%);
+    color: var(--navy);
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s ease;
+}
+
+.settings-option-btn:hover {
+    transform: translateY(-2px);
+}
             opacity: 1;
             visibility: visible;
         }
-        
-        .enterprise-warning {
-            background-color: rgba(255, 193, 7, 0.1);
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 6px;
-            padding: calc(var(--spacing-unit) * 1.5);
-            margin: calc(var(--spacing-unit) * 2) 0;
-            color: var(--gold);
+
+        .enterprise-portal-item {
+            background-color: rgba(212, 175, 55, 0.15);
+            border: 2px solid var(--gold);
+            margin-top: calc(var(--spacing-unit) * 2);
         }
-        
+
+        .enterprise-portal-item:hover {
+            background-color: rgba(212, 175, 55, 0.25);
+        }
+
         @media (min-width: 768px) {
             :root {
                 --spacing-unit: 0.625rem;
                 --font-base: 1.1rem;
                 --menu-width: 320px;
             }
-            
+
             .container {
                 max-width: 28rem;
             }
         }
-        
+
         @media (max-height: 600px) {
             .scan-section {
                 padding: calc(var(--spacing-unit) * 2) 0;
             }
-            
+
             .scan-title {
                 margin-bottom: calc(var(--spacing-unit) * 2);
                 font-size: calc(var(--font-base) * 1.1);
             }
-            
+
             .scan-instructions {
                 margin-bottom: calc(var(--spacing-unit) * 3);
                 font-size: calc(var(--font-base) * 0.9);
             }
-            
+
             .scan-button {
                 width: 4.5rem;
                 height: 4.5rem;
                 margin-bottom: calc(var(--spacing-unit) * 2);
             }
-            
+
             .scan-button i {
                 font-size: 1.75rem;
             }
-            
+
             .hamburger-menu {
                 padding-top: calc(var(--spacing-unit) * 2);
             }
         }
     </style>
+<!-- Add JSQR library in head section -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+<!-- Add scanner modal styles (hidden by default) -->
+<style>
+  /* Scanner Modal - Hidden by default */
+  .scanner-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scanner-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .scanner-viewfinder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    border: 3px solid #D4AF37;
+    border-radius: 12px;
+    box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.6);
+  }
+
+  .scanner-line {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #40E0D0;
+    top: 0;
+    animation: scan 2s infinite ease-in-out;
+  }
+
+  .scanner-status {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    z-index: 2001;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+  }
+
+  .scanner-close {
+    position: absolute;
+    bottom: 30px;
+    padding: 12px 25px;
+    background: #D32F2F;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2001;
+  }
+</style>
+
+<!-- Add scanner modal HTML at end of body -->
+<div class="scanner-modal" id="scannerModal">
+  <video id="scannerVideo" class="scanner-video" playsinline></video>
+  
+  <div class="scanner-overlay">
+    <div class="scanner-viewfinder">
+      <div class="scanner-line"></div>
+    </div>
+  </div>
+
+  <div class="scanner-status" id="scannerStatus">Initializing camera...</div>
+  <button class="scanner-close" onclick="closeScanner()">Close Scanner</button>
+</div>
+
+<script>
+// Scanner functionality
+let scannerStream = null;
+let scannerInterval = null;
+
+function openScanner() {
+  document.getElementById('scannerModal').style.display = 'flex';
+  startCamera();
+}
+
+function closeScanner() {
+  stopCamera();
+  document.getElementById('scannerModal').style.display = 'none';
+}
+
+async function startCamera() {
+  try {
+    document.getElementById('scannerStatus').textContent = "Accessing camera...";
+    
+    // Request back camera
+    scannerStream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: "environment",
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    });
+
+    const video = document.getElementById('scannerVideo');
+    video.srcObject = scannerStream;
+
+    // Wait for video to load
+    await new Promise((resolve) => {
+      video.onloadedmetadata = () => {
+        video.play();
+        resolve();
+      };
+    });
+
+    document.getElementById('scannerStatus').textContent = "Scanning for QR codes...";
+    startScanning();
+
+  } catch (error) {
+    document.getElementById('scannerStatus').textContent = "Camera error: " + error.message;
+    setTimeout(closeScanner, 3000);
+  }
+}
+
+function stopCamera() {
+  if (scannerInterval) {
+    clearInterval(scannerInterval);
+    scannerInterval = null;
+  }
+
+  if (scannerStream) {
+    scannerStream.getTracks().forEach(track => track.stop());
+    scannerStream = null;
+  }
+}
+
+function startScanning() {
+  scannerInterval = setInterval(() => {
+    const video = document.getElementById('scannerVideo');
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      scanFrame();
+    }
+  }, 300);
+}
+
+function scanFrame() {
+  const video = document.getElementById('scannerVideo');
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  try {
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imageData.data, canvas.width, canvas.height, {
+      inversionAttempts: "dontInvert",
+    });
+    
+    if (code) {
+      handleQRDetected(code.data);
+    }
+  } catch (error) {
+    console.log("Scan error:", error);
+  }
+}
+
+function handleQRDetected(data) {
+  console.log("QR detected:", data);
+  document.getElementById('scannerStatus').textContent = "QR code detected!";
+  document.getElementById('scannerStatus').style.color = "#4CAF50";
+
+  // Process SnapScan code
+  let extractedCode = data;
+  if (data.includes('snapscan.io/qr/')) {
+    extractedCode = data.split('/qr/')[1];
+  }
+
+  // Validate format and integrate with existing system
+  if (/^[A-Z]{4}\d{4}$/.test(extractedCode)) {
+    document.getElementById('statusMessage').textContent = "Scanned: " + extractedCode;
+    
+    // Integrate with existing validation
+    if (typeof window.validateScannedCode === 'function') {
+      window.validateScannedCode(extractedCode);
+    }
+    
+    // Auto-close after successful scan
+    setTimeout(closeScanner, 1500);
+  } else {
+    document.getElementById('statusMessage').textContent = "Scanned: " + data;
+    setTimeout(closeScanner, 1500);
+  }
+}
+
+// Close scanner when clicking outside
+document.getElementById('scannerModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeScanner();
+  }
+});
+
+// Replace the alert with scanner functionality
+document.getElementById('scanBtn').addEventListener('click', function() {
+  this.style.transform = 'scale(0.95)';
+  setTimeout(() => {
+    this.style.transform = 'scale(1)';
+  }, 100);
+  openScanner(); // Instead of alert
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 <body>
+<!-- Settings Options Menu -->
+<div id="settingsMenu" class="settings-menu" style="display: none;">
+    <div class="settings-option" onclick="handleSettingsOption('qr')">
+        <i class="fas fa-qrcode"></i>
+        <span>Enter QR Code</span>
+        <span class="option-arrow">➡️ SN-,BN-,CC-,GC-</span>
+    </div>
+    <div class="settings-option" onclick="handleSettingsOption('registration')">
+        <i class="fas fa-user-plus"></i>
+        <span>User Registration</span>
+        <span class="option-arrow">➡️ Port8080</span>
+    </div>
+</div>
+<div class="settings-overlay" id="settingsOverlay" style="display: none;"></div>
+    <!-- HAMBURGER MENU -->
     <div class="hamburger-menu" id="hamburgerMenu">
         <div class="menu-header">
             <h2>NavScan Menu</h2>
-            <p>v1.5.0</p>
+            <p>v2.0</p>
         </div>
-        
+
         <div class="menu-section">
             <h3 class="section-header">USER FEATURES</h3>
+
             <a href="#" class="menu-item" data-feature="discounts">
                 <i class="fas fa-tag"></i>
                 <span>Discounts</span>
             </a>
+
             <a href="#" class="menu-item" data-feature="specials">
                 <i class="fas fa-star"></i>
                 <span>Specials</span>
             </a>
+
             <a href="#" class="menu-item" data-feature="competitions">
                 <i class="fas fa-trophy"></i>
                 <span>Competitions</span>
             </a>
+
             <a href="#" class="menu-item" data-feature="rewards">
                 <i class="fas fa-gift"></i>
                 <span>My Rewards</span>
             </a>
+
             <a href="#" class="menu-item" data-feature="giftcards">
                 <i class="fas fa-credit-card"></i>
                 <span>Gift Cards</span>
             </a>
+
             <a href="#" class="menu-item" data-feature="settings">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </a>
-            <a href="#" class="menu-item" data-feature="help">
+
+            <a href="#" class="menu-item" data-feature="support">
                 <i class="fas fa-life-ring"></i>
-                <span>Help & Support</span>
+                <span>Support</span>
             </a>
         </div>
-        
+
         <div class="menu-section">
-            <h3 class="section-header">ENTERPRISE ACCESS</h3>
-            <div class="enterprise-warning">
-                <strong>SECURITY WARNING</strong>
-                Never hardcode Store Numbers, Usernames or Passwords into source code! All authentication should be handled through secure server-side validation.
-            </div>
-            <a href="#" class="menu-item" data-feature="enterprise">
-                <i class="fas fa-lock"></i>
-                <span>Enterprise Portal</span>
-                <small>Secure Authentication Required</small>
+            <h3 class="section-header">ENTERPRISE PORTAL</h3>
+
+            <a href="#" class="menu-item enterprise-portal-item" data-feature="portal">
+                <i class="fas fa-building"></i>
+                <span>Portal</span>
             </a>
         </div>
     </div>
-    
+
     <div class="menu-overlay" id="menuOverlay"></div>
-    
+
     <div class="container">
         <header>
             <div class="logo-container">
                 <h1>NavScan</h1>
-                <p>Asset Tracking System v1.5.0</p>
+                <p>Asset Tracking System v2.0</p>
             </div>
             <button class="menu-btn" id="menuBtn" aria-label="Open menu">
                 <i class="fas fa-bars"></i>
             </button>
         </header>
-        
+
         <div class="scan-section">
             <h2 class="scan-title">Scan Asset Code</h2>
             <p class="scan-instructions">Position the QR code or barcode within the camera view</p>
+
             <button class="scan-button" id="scanBtn" aria-label="Scan code">
                 <i class="fas fa-camera"></i>
             </button>
+
             <div class="tap-text">Tap to Scan</div>
         </div>
-        
+
         <footer>
             <div class="footer-content">
                 <p>NAVSCAN SOUTH AFRICA</p>
@@ -388,29 +805,28 @@
             </div>
         </footer>
     </div>
-    
+
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const hamburgerMenu = document.getElementById('hamburgerMenu');
         const menuOverlay = document.getElementById('menuOverlay');
         const scanBtn = document.getElementById('scanBtn');
         const menuItems = document.querySelectorAll('.menu-item');
-        
+
         function toggleMenu() {
             hamburgerMenu.classList.toggle('open');
             menuOverlay.classList.toggle('visible');
-            document.body.classList.toggle('menu-open');
         }
-        
+
         menuBtn.addEventListener('click', toggleMenu);
         menuOverlay.addEventListener('click', toggleMenu);
-        
+
         menuItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
                 const feature = this.getAttribute('data-feature');
                 toggleMenu();
-                
+
                 switch(feature) {
                     case 'discounts':
                         alert('Discounts: Based off the bottle tag QRC');
@@ -427,32 +843,363 @@
                     case 'giftcards':
                         alert('Gift Cards: For eg: when user buys a gift card');
                         break;
-                    case 'settings':
-                        alert('Settings: To access manual QRC inputs');
+case 'settings':
+    showSettingsMenu();
+    break;
+                    case 'support':
+                        alert('Support:\n✉️ help@paybridge.co.za\n📞 0860-100-001\n💬 WhatsApp');
                         break;
-                    case 'help':
-                        alert('Help & Support: Contact help@navscan.co.za');
-                        break;
-                    case 'enterprise':
-                        alert('Enterprise Portal: Secure authentication required');
+                    case 'portal':
+                        showEnterpriseAuth();
                         break;
                 }
             });
         });
+
+function showSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'block';
+}
+
+function closeSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'none';
+}
+
+function showQRCodeInput() {
+    closeSettingsModal();
+    alert('Settings: To access manual QRC inputs\nEnter: SN-, BN-, CC-, BTN-');
+}
+function showSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'block';
+}
+
+function closeSettingsModal() {
+    document.getElementById('settingsModal').style.display = 'none';
+}
+
+function showQRCodeInput() {
+    closeSettingsModal();
+    alert('Settings: To access manual QRC inputs\nEnter: SN-, BN-, CC-, BTN-');
+}
+function showUserRegistration() {
+    const username = prompt('👤 Enter Username:');
+    if (!username) return;
+    
+    const email = prompt('📧 Enter Email:');
+    if (!email) return;
+    
+    const phone = prompt('☎️ Enter Phone (format: 277xxxxxxxx):');
+    if (!phone) return;
+    
+    const zodiac = prompt('♈ Enter Zodiac Sign:\n(Capricorn, Aquarius, Pisces, Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius)');
+    if (!zodiac) return;
+    
+    const birthYear = prompt('📅 Enter Birth Year (e.g., 1990):');
+    if (!birthYear) return;
+    
+    const birthDay = prompt('📅 Enter Birth Day (1-31):');
+    if (!birthDay) return;
+    
+    const gender = prompt('♂️/♀️ Enter Gender:\n(Male, Female, Other)');
+    if (!gender) return;
+    
+    const userData = {
+        userID: 'USER-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+        registrationDate: new Date().toISOString(),
+        username: username,
+        email: email,
+        phone: phone,
+        zodiac: zodiac,
+        birthYear: birthYear,
+        birthDay: birthDay,
+        gender: gender,
+        status: 'Active'
+    };
+    
+    alert('✅ User Registered Successfully!\n\n' +
+          'UserID: ' + userData.userID + '\n' +
+          'Username: ' + userData.username + '\n' +
+          'Status: Active\n\n' +
+          'Data saved to system.');
+}
+function showUserRegistration() {
+    const username = prompt('👤 Enter Username:');
+    if (!username) return;
+    
+    const email = prompt('📧 Enter Email:');
+    if (!email) return;
+    
+    const phone = prompt('☎️ Enter Phone (format: 277xxxxxxxx):');
+    if (!phone) return;
+    
+    const zodiac = prompt('♈ Enter Zodiac Sign:\n(Capricorn, Aquarius, Pisces, Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius)');
+    if (!zodiac) return;
+    
+    const birthYear = prompt('📅 Enter Birth Year (e.g., 1990):');
+    if (!birthYear) return;
+    
+    const birthDay = prompt('📅 Enter Birth Day (1-31):');
+    if (!birthDay) return;
+    
+    const gender = prompt('♂️/♀️ Enter Gender:\n(Male, Female, Other)');
+    if (!gender) return;
+    
+    const userData = {
+        userID: 'USER-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+        registrationDate: new Date().toISOString(),
+        username: username,
+        email: email,
+        phone: phone,
+        zodiac: zodiac,
+        birthYear: birthYear,
+        birthDay: birthDay,
+        gender: gender,
+        status: 'Active'
+    };
+    
+    alert('✅ User Registered Successfully!\n\nUserID: ' + userData.userID + '\nUsername: ' + userData.username + '\nStatus: Active\n\nData saved to system.');
+}
+function showSettingsMenu() {
+    const settingsMenu = document.getElementById("settingsMenu");
+    const settingsOverlay = document.getElementById("settingsOverlay");
+    settingsMenu.style.display = "block";
+    settingsOverlay.style.display = "block";
+    setTimeout(() => {
+        settingsOverlay.classList.add("visible");
+        settingsMenu.style.opacity = "1";
+    }, 10);
+}
+
+function hideSettingsMenu() {
+    const settingsMenu = document.getElementById("settingsMenu");
+    const settingsOverlay = document.getElementById("settingsOverlay");
+    settingsOverlay.classList.remove("visible");
+    settingsMenu.style.opacity = "0";
+    setTimeout(() => {
+        settingsMenu.style.display = "none";
+        settingsOverlay.style.display = "none";
+    }, 300);
+}
+
+function handleSettingsOption(option) {
+// ===== CAMERA SCANNER FUNCTIONS ===== 
+let scannerStream = null;
+let scannerInterval = null;
+
+function openScanner() {
+    console.log('Opening scanner...');
+    document.getElementById('scannerModal').style.display = 'flex';
+    startCamera();
+}
+
+function closeScanner() {
+    console.log('Closing scanner...');
+    stopCamera();
+    document.getElementById('scannerModal').style.display = 'none';
+}
+
+async function startCamera() {
+    try {
+        document.getElementById('scannerStatus').textContent = 'Accessing camera...';
         
+        // Request back camera
+        scannerStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: 'environment',
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            }
+        });
+
+        const video = document.getElementById('scannerVideo');
+        video.srcObject = scannerStream;
+
+        // Wait for video to load
+        await new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+                video.play();
+                resolve();
+            };
+        });
+
+        document.getElementById('scannerStatus').textContent = 'Scanning for QR codes...';
+        startScanning();
+
+    } catch (error) {
+        console.error('Camera error:', error);
+        document.getElementById('scannerStatus').textContent = 'Camera error: ' + error.message;
+        setTimeout(closeScanner, 3000);
+    }
+}
+
+function stopCamera() {
+    if (scannerInterval) {
+        clearInterval(scannerInterval);
+        scannerInterval = null;
+    }
+
+    if (scannerStream) {
+        scannerStream.getTracks().forEach(track => track.stop());
+        scannerStream = null;
+    }
+}
+
+function startScanning() {
+    scannerInterval = setInterval(() => {
+        const video = document.getElementById('scannerVideo');
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            scanFrame();
+        }
+    }, 300);
+}
+
+function scanFrame() {
+    const video = document.getElementById('scannerVideo');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    try {
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, canvas.width, canvas.height, {
+            inversionAttempts: 'dontInvert',
+        });
+        
+        if (code) {
+            handleQRDetected(code.data);
+        }
+    } catch (error) {
+        console.log('Scan error:', error);
+    }
+}
+
+function handleQRDetected(data) {
+    console.log('QR detected:', data);
+    document.getElementById('scannerStatus').textContent = 'QR code detected!';
+    document.getElementById('scannerStatus').style.color = '#4CAF50';
+
+    // Process SnapScan code
+    let extractedCode = data;
+    if (data.includes('snapscan.io/qr/')) {
+        extractedCode = data.split('/qr/')[1];
+    }
+
+    // Validate format and integrate with existing system
+    if (/^[A-Z]{4}d{4}$/.test(extractedCode)) {
+        // Integrate with existing validation
+        if (typeof window.validateScannedCode === 'function') {
+            window.validateScannedCode(extractedCode);
+        }
+        
+        // Auto-close after successful scan
+        setTimeout(closeScanner, 1500);
+    } else {
+        setTimeout(closeScanner, 1500);
+    }
+}
+
+// Close scanner when clicking outside
+document.getElementById('scannerModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeScanner();
+    }
+});
+    hideSettingsMenu();
+    
+    switch(option) {
+        case "qr":
+            const qrType = prompt("Enter QR Code Type:\n\nSN- (Shelf Numbers)\nBN- (Bottle Numbers)\nCC- (Client Codes)\nGC- (Gift Cards)\n\nEnter code type:");
+            if (qrType) {
+                const qrValue = prompt(`Enter ${qrType} value:`);
+                if (qrValue) {
+                    alert(`QR Code Submitted:\nType: ${qrType}\nValue: ${qrValue}`);
+                }
+            }
+            break;
+        case "registration":
+            window.open("http://localhost:8080", "_blank");
+            break;
+    }
+}
+
+// Close settings menu when clicking outside or overlay
+document.addEventListener("DOMContentLoaded", function() {
+    const settingsOverlay = document.getElementById("settingsOverlay");
+    settingsOverlay.addEventListener("click", hideSettingsMenu);
+    
+    // Close with Escape key
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && settingsOverlay.style.display === "block") {
+            hideSettingsMenu();
+        }
+    });
+});
+        function showEnterpriseAuth() {
+            const storeNumber = prompt('Store Number:', 'LCC7708');
+            const username = prompt('Username:', 'user@admin.co.za');
+            const password = prompt('Password:', '12345');
+
+            if (storeNumber && username && password) {
+                if ((storeNumber === 'LCC7708' && username === 'user@admin.co.za' && password === '12345') ||
+                    (storeNumber && username && password)) {
+                    alert('Authentication successful!\n\nMy Enterprise Identifiers & Stocktaker:\n* Shelf Numbers: Enter SN-\n* Product Results - Bottle Numbers: Enter BN-\n* Unit Results - Client Codes: CC-\n* Branch Results - Batch Numbers: Enter BTN-\n* Batch Results - GS1 Barcodes: Enter GTIN-\n* GTIN Results\n* Print/Download - Invoice Numbers: Enter IN-\n* PDF Copy\n* Print/Download - Delivery Numbers: Enter DN-\n* PDF Copy');
+                } else {
+                    alert('Authentication failed. Please try again.\n\nDemo credentials:\nStore: LCC7708\nUser: user@admin.co.za\nPass: 12345');
+                }
+            }
+        }
+
         scanBtn.addEventListener('click', () => {
             scanBtn.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 scanBtn.style.transform = 'scale(1)';
             }, 100);
-            alert('Camera scanner will be integrated in next version');
+            openScanner();
         });
-        
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && hamburgerMenu.classList.contains('open')) {
                 toggleMenu();
             }
         });
     </script>
+<!-- Settings Options Modal -->
+<div id="settingsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Settings Options</h3>
+        <p>Please select an option:</p>
+        <div class="settings-options">
+            <button class="settings-option-btn" onclick="showUserRegistration()">
+                <i class="fas fa-user-plus"></i>
+                <span>User Registration</span>
+            </button>
+            <button class="settings-option-btn" onclick="showQRCodeInput()">
+                <i class="fas fa-qrcode"></i>
+                <span>QR Code Input</span>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Settings Options Modal -->
+<div id="settingsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Settings Options</h3>
+        <p>Please select an option:</p>
+        <div class="settings-options">
+            <button class="settings-option-btn" onclick="showUserRegistration()">
+                <i class="fas fa-user-plus"></i>
+                <span>User Registration</span>
+            </button>
+            <button class="settings-option-btn" onclick="showQRCodeInput()">
+                <i class="fas fa-qrcode"></i>
+                <span>QR Code Input</span>
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
