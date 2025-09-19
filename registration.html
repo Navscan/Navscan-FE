@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavScan - Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --spacing-unit: 0.5rem;
+            --font-base: 1rem;
+            --gold: #D4AF37;
+            --navy: #1A2F5F;
+            --dark-navy: #0E1A40;
+            --white: #FFFFFF;
+            --light-gray: rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-navy) 100%);
+            color: var(--white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        
+        .logo p {
+            opacity: 0.8;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+        }
+        
+        .input-icon input {
+            padding-right: 45px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #BF9B30;
+            transform: translateY(-2px);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+        
+        .form-footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .starsign-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .starsign-btn {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .starsign-btn:hover, .starsign-btn.selected {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+        }
+        
+        .gender-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .gender-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gender-btn:hover, .gender-btn.selected {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .starsign-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>NavScan</h1>
+            <p>Asset Tracking System v1.5.0 - Registration</p>
+        </div>
+        
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-icon">
+                    <input type="email" id="email" class="form-control" placeholder="user@admin.co.za" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <div class="input-icon">
+                    <input type="tel" id="phone" class="form-control" placeholder="+27 0739338899" required>
+                    <i class="fas fa-phone"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-icon">
+                    <input type="text" id="username" class="form-control" placeholder="RumLover123" required>
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-icon">
+                    <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="birthday">Birth Day (XX)</label>
+                    <input type="number" id="birthday" class="form-control" placeholder="28" min="1" max="31" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="decade">Decade (XX)</label>
+                    <input type="number" id="decade" class="form-control" placeholder="77" min="0" max="99" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Star Sign</label>
+                <div class="starsign-options">
+                    <div class="starsign-btn" data-sign="aries">Aries ♈</div>
+                    <div class="starsign-btn" data-sign="taurus">Taurus ♉</div>
+                    <div class="starsign-btn" data-sign="gemini">Gemini ♊</div>
+                    <div class="starsign-btn" data-sign="cancer">Cancer ♋</div>
+                    <div class="starsign-btn" data-sign="leo">Leo ♌</div>
+                    <div class="starsign-btn" data-sign="virgo">Virgo ♍</div>
+                    <div class="starsign-btn" data-sign="libra">Libra ♎</div>
+                    <div class="starsign-btn" data-sign="scorpio">Scorpio ♏</div>
+                    <div class="starsign-btn" data-sign="sagittarius">Sagittarius ♐</div>
+                    <div class="starsign-btn" data-sign="capricorn">Capricorn ♑</div>
+                    <div class="starsign-btn" data-sign="aquarius">Aquarius ♒</div>
+                    <div class="starsign-btn" data-sign="pisces">Pisces ♓</div>
+                </div>
+                <input type="hidden" id="starsign" value="" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="gender-options">
+                    <div class="gender-btn" data-gender="male">Male ♂️</div>
+                    <div class="gender-btn" data-gender="female">Female ♀️</div>
+                </div>
+                <input type="hidden" id="gender" value="" required>
+            </div>
+            
+            <button type="submit" class="btn">Complete Registration</button>
+        </form>
+        
+        <div class="form-footer">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const starsignInput = document.getElementById('starsign');
+            const genderInput = document.getElementById('gender');
+            
+            // Star sign selection
+            document.querySelectorAll('.starsign-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.starsign-btn').forEach(btn => btn.classList.remove('selected'));
+                    this.classList.add('selected');
+                    starsignInput.value = this.getAttribute('data-sign');
+                });
+            });
+            
+            // Gender selection
+            document.querySelectorAll('.gender-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('selected'));
+                    this.classList.add('selected');
+                    genderInput.value = this.getAttribute('data-gender');
+                });
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate required fields
+                if (!starsignInput.value || !genderInput.value) {
+                    alert('Please select your star sign and gender');
+                    return;
+                }
+                
+                const userData = {
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                    birthday: document.getElementById('birthday').value,
+                    decade: document.getElementById('decade').value,
+                    starsign: starsignInput.value,
+                    gender: genderInput.value
+                };
+                
+                // Store user data (in a real app, this would be sent to a server)
+                localStorage.setItem('navscan_user', JSON.stringify(userData));
+                localStorage.setItem('navscan_logged_in', 'true');
+                localStorage.setItem('navscan_current_user', userData.username);
+                
+                alert('Registration successful! You are now logged in.');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

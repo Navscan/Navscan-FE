@@ -1,0 +1,5 @@
+// Native App Detection
+if (window.matchMedia("(display-mode: standalone)").matches) {
+  document.body.classList.add("standalone-mode");
+  console.log("Running as native app!");
+}
